@@ -51,8 +51,6 @@ INSTALLED_APPS = [
     'django_extensions',
     'account',
     'core',
-    'schedule',
-
 ]
 
 MIDDLEWARE = [
