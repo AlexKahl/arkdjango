@@ -1,0 +1,27 @@
+{% extends "account_base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <div class="col-md-6">
+
+    <div class="card">
+        <div class="card-header">
+            <img src="{% static 'img/bbc_logo.png' %}" width="184" height="60">
+        </div>
+
+        <div class="card-body">
+
+            <p>Login to BBC Artemis</p>
+
+            <form action="." method="post">
+              {{ form.as_p }}
+              {% csrf_token %}
+              <p><input type="submit", value="Log in "></p>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

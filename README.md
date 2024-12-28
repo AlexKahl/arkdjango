@@ -1,2 +1,2 @@
-# arkdjango
-This repo will serve as my new docker-based webapp
+# threesurfers
+Basic Surfsession Scheduling Tool 

@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+
+</div>
+<div class="container-fluid">
+<div class="card">
+  <div class="card-body">
+      {% if request.user.is_authenticated %}
+            <h3 class="card-title"><p class="text-primary">Welcome {{request.user.first_name}} to 3 Surfers - Session Calendar</p></h3>
+      {% else %}
+            <h3 class="card-title"><p class="text-primary">Welcome to 3 Surfers Scheduling Tool</p></h3>
+      {% endif %}
+
+    <p class="card-text"> This is just a simple mock up for your personalized surf schedule &#127940;</p>
+    
+
+      <footer class="blockquote-footer">Happy Surf!</cite></footer>
+  </div>
+</div>
+</div>
+<hr>
+
+<!-- performance cards -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="align-items-center row">
+              <div class="col">
+                <h6 class="text-uppercase text-muted mb-2">Number of Lessions Today</h6>
+                <span class="h2 mb-0"> 2</span>
+              </div>
+
+              <div class="col-auto">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="feather feather-dollar-sign text-muted">
+                  <g><i class="fas fa-landmark"></i></g></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="align-items-center row">
+            <div class="col">
+                <h6 class="text-uppercase text-muted mb-2">Number of Participants Today</h6>
+                <span class="h2 mb-0"> 8</span>
+            </div>
+        <div class="col-auto">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="feather feather-dollar-sign text-muted">
+                  <g><i class="fas fa-hand-holding-usd"></i></g></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="align-items-center row">
+              <div class="col">
+                <h6 class="text-uppercase text-muted mb-2">PAID LESSONS TODAY</h6>
+                  <span class="h2 mb-0"> 5</span>
+
+              </div>
+              <div class="col-auto">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="feather feather-dollar-sign text-muted">
+                  <g><i class="fas fa-landmark"></i></g></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+<div class="align-items-center row">
+
+    <div class="col">
+        <div class="card">
+
+            <div class="card-body">
+                <h5 class="card-title">Surf Session Overview for the next 3 days</h5>
+
+                <div class="table-responsive text-nowrap">
+
+                <table id="surf_schedule_table" class="display compact table-hover" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Meeting Point</th>
+                            <th>Coach</th>
+                            <th>Level</th>
+                            <th>Location</th>
+                            <th>Student</th>
+                            <th>Group Size</th>
+                            
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            
+                        </tr>
+                    </tfoot>
+                </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</div>
+
+<div class="container-fluid">
+  <div class="align-items-center row">
+  
+      <div class="col">
+          <div class="card">
+  
+              <div class="card-body">
+                  <h5 class="card-title">Comments</h5>
+                  {% if comments %}
+                  <ul>
+                      {% for key, comment in comments.items %}
+                          <li>
+                              <strong>Session:</strong> {{ key }} <br>
+                              <strong>Comment:</strong> {{ comment }}
+                          </li>
+                      {% endfor %}
+                  </ul>
+              {% else %}
+                  <p>No comments available.</p>
+              {% endif %}
+              
+              </div>    
+          </div>    
+      </div>  
+    </div>      
+  </div>  
+
+
+
+
+{% block scripts %}
+    {{ block.super }}
+{% block script %}
+<script type="text/javascript">
+
+function setupData() {
+    $(document).ready(function () {
+
+        /* FIXME: Do we need this?
+          $('#surf_schedule_table tfoot th').each(function (i) {
+            var title = $('#surf_schedule_table thead th')
+                .eq($(this).index())
+                .text();
+            $(this).html(
+                '<input type="text" placeholder="' + title + '" data-index="' + i + '" />'
+            );
+        });
+      */
+
+        var table = $('#surf_schedule_table').DataTable({
+                "ajax": {
+                    url: "{% url 'calendar_table_data_overview' days=3 %}",
+                    dataSrc: "data"
+                },
+                "columns": [
+                    {"data": "date"},
+                    {"data": "time"},
+                    {"data": "meeting_point"},
+                    {"data": "coach"},
+                    {"data": "type_of_lesson"},
+                    {"data": "location"},
+                    {"data": "student"},
+                    {"data":"total"}
+                ],
+                
+                "drawCallback": function () {},
+                "destroy": true,
+                "scrollX": true,
+                "paging": false,
+                "searching": true,
+                "info": false
+            });
+    
+        // Filter event handler
+        $(table.table().container()).on('keyup', 'tfoot input', function () {
+          table
+              .column($(this).data('index'))
+              .search(this.value)
+              .draw();
+      });
+    
+          });
+
+    
+}
+$( window ).on( "load", setupData );
+
+</script>
+{% endblock %}
+{% endblock %}
+
+
+{% endblock %}
