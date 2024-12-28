@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'account',
     'core',
+    'reporting'
 ]
 
 MIDDLEWARE = [
