@@ -21,18 +21,14 @@ from django.shortcuts import render
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from schedule.views import get_surf_session_comments
+
 
 API_VERSION = "v1"
 
 
 @login_required
 def home(request):
-
-    user_in_management = request.user.groups.filter(name='Management').exists()
-    comments = get_surf_session_comments(request, 1)
-
-    return render(request, 'home.html', {'user_in_management': user_in_management, "comments": comments})
+    pass
 
 
 def logout_view(request):
@@ -42,10 +38,8 @@ def logout_view(request):
 
 urlpatterns = [
     path(f"{API_VERSION}/logout/", logout_view, name='logout'),
-    path(f"{API_VERSION}/", home, name="home"),
     path(f"{API_VERSION}/account/", include('account.urls')),
     path(f"{API_VERSION}/admin/", admin.site.urls),
-    path(f"{API_VERSION}/schedule/", include('schedule.urls')),
 
 ]
 
