@@ -34,6 +34,9 @@ class Portfolio(ActiveNamedMixin):
     def __str__(self):
         return f"{self.name}-{self.fund_account.account_number}"
 
+    class Meta:
+        unique_together = ("name",)
+
 
 class DataField(ActiveNamedMixin):
 
